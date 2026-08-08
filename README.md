@@ -1,4 +1,4 @@
-# Meta Quest 2 Research
+# Meta Quest Research
 
 A collection of research, discoveries, and notes from exploring the Meta Quest 2 and Horizon OS with root and ADB access.
 

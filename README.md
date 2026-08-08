@@ -789,4 +789,4 @@ Older research from the QuestEscape project is useful for understanding the earl
 
 The goal here is to document what can actually be observed and verified on the device rather than making assumptions about how Horizon OS works.
 
-Credits to the repo https://github.com/QuestEscape for extra info about the bootloader
+Credits to the repo https://github.com/QuestEscape for extra info about the bootloader and check out his github

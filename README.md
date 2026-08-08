@@ -784,6 +784,7 @@ This repository is intended to grow as more of the Quest's internals are documen
 A lot of Quest behaviour changes between firmware versions.
 
 Something that exists on one version may be renamed, moved, removed, or protected on another.
+Credits to the repo https://github.com/QuestEscape for extra info about the bootloader
 
 Older research from the QuestEscape project is useful for understanding the earlier Quest boot chain and software architecture, but it should not automatically be assumed to apply to current Quest 2 firmware.
 

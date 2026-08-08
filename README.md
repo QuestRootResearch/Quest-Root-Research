@@ -1,4 +1,4 @@
-# Meta Quest 2 Root Research
+# Meta Quest Root Research
 
 A collection of my findings while exploring the Meta Quest 2 with root access, ADB, and direct access to the Android filesystem.
 

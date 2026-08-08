@@ -1,0 +1,17 @@
+name: Discord Repository Updates
+
+on:
+  push:
+  pull_request:
+  issues:
+  release:
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: discord-webhook
+        uses: johnnyhuy/actions-discord-git-webhook@v1.0.4
+        env:
+          DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1535768736462807043/XuNxtgL5Hl3kz91e-XLHJTp06PRswPNZ46jAzCAFHC-COiXIBm0S22AZZkBhB7kllSXk"

@@ -861,6 +861,7 @@ printf '\n'
 EOF
 
 chmod 755 /data/adb/bin/qfetch
-export PATH="/data/adb/bin:$PATH" 
+export PATH="/data/adb/bin:$PATH"
+qfetch
 
 Then run command qfetch and it should run

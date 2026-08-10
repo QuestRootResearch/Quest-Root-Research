@@ -796,6 +796,9 @@ My simple terminal app if you want to use is Qfetch
 
 Type this in to terminal as root to get it 
 
+### Install
+
+```sh
 cat > /data/adb/bin/qfetch <<'EOF'
 #!/system/bin/sh
 
@@ -814,19 +817,17 @@ HOME_DIR="${HOME:-$(getent passwd "$(id -u)" 2>/dev/null | cut -d: -f6)}"
 BATTERY="$(cat /sys/class/power_supply/battery/capacity 2>/dev/null)"
 STATUS="$(cat /sys/class/power_supply/battery/status 2>/dev/null)"
 
-# CPU
 CPU="$(getprop ro.soc.model)"
 [ -z "$CPU" ] && CPU="$(getprop ro.hardware)"
 [ -z "$CPU" ] && CPU="$(grep -m1 'Hardware' /proc/cpuinfo | cut -d: -f2 | sed 's/^ *//')"
 [ -z "$CPU" ] && CPU="Unknown"
 
-# GPU
 GPU="$(cat /sys/class/kgsl/kgsl-3d0/gpu_model 2>/dev/null)"
 [ -z "$GPU" ] && GPU="$(getprop ro.hardware.egl)"
 [ -z "$GPU" ] && GPU="$(getprop ro.gfx.driver.0)"
+[ -z "$GPU" ] && GPU="$(getprop ro.gfx.driver.0)"
 [ -z "$GPU" ] && GPU="Unknown"
 
-# Android HOME application process
 HOME_PROCESS="$(
     cmd package resolve-activity \
         -c android.intent.category.HOME \

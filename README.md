@@ -790,3 +790,77 @@ Older research from the QuestEscape project is useful for understanding the earl
 The goal here is to document what can actually be observed and verified on the device rather than making assumptions about how Horizon OS works.
 
 Credits to the repo https://github.com/QuestEscape for extra info about the bootloader and check out his github
+
+
+My simple terminal app if you want to use is Qfetch
+
+Type this in to terminal as root to get it 
+
+cat > /data/adb/bin/qfetch <<'EOF'
+#!/system/bin/sh
+
+# QuestFetch - lightweight Quest system information
+
+DEVICE="$(getprop ro.product.model)"
+CODENAME="$(getprop ro.product.device)"
+HARDWARE="$(getprop ro.boot.hardware.revision)"
+ANDROID="$(getprop ro.build.version.release)"
+BUILD="$(getprop ro.build.display.id)"
+KERNEL="$(uname -r)"
+ARCH="$(uname -m)"
+USER="$(id -un)"
+HOME_DIR="${HOME:-$(getent passwd "$(id -u)" 2>/dev/null | cut -d: -f6)}"
+
+BATTERY="$(cat /sys/class/power_supply/battery/capacity 2>/dev/null)"
+STATUS="$(cat /sys/class/power_supply/battery/status 2>/dev/null)"
+
+# CPU
+CPU="$(getprop ro.soc.model)"
+[ -z "$CPU" ] && CPU="$(getprop ro.hardware)"
+[ -z "$CPU" ] && CPU="$(grep -m1 'Hardware' /proc/cpuinfo | cut -d: -f2 | sed 's/^ *//')"
+[ -z "$CPU" ] && CPU="Unknown"
+
+# GPU
+GPU="$(cat /sys/class/kgsl/kgsl-3d0/gpu_model 2>/dev/null)"
+[ -z "$GPU" ] && GPU="$(getprop ro.hardware.egl)"
+[ -z "$GPU" ] && GPU="$(getprop ro.gfx.driver.0)"
+[ -z "$GPU" ] && GPU="Unknown"
+
+# Android HOME application process
+HOME_PROCESS="$(
+    cmd package resolve-activity \
+        -c android.intent.category.HOME \
+        -a android.intent.action.MAIN 2>/dev/null |
+        grep 'processName=' |
+        head -n 1 |
+        sed 's/.*processName=//' |
+        sed 's/ .*//'
+)"
+
+[ -z "$HOME_PROCESS" ] && HOME_PROCESS="Unknown"
+
+printf '\n'
+printf 'QuestFetch\n'
+printf '────────────────────────────────────\n'
+printf 'Device         %s\n' "$DEVICE"
+printf 'Codename       %s\n' "$CODENAME"
+printf 'Hardware       %s\n' "$HARDWARE"
+printf 'Android        %s\n' "$ANDROID"
+printf 'Build          %s\n' "$BUILD"
+printf 'Kernel         %s\n' "$KERNEL"
+printf 'Architecture   %s\n' "$ARCH"
+printf 'CPU            %s\n' "$CPU"
+printf 'GPU            %s\n' "$GPU"
+printf 'User           %s\n' "$USER"
+printf 'Home           %s\n' "$HOME_DIR"
+printf 'Home Process   %s\n' "$HOME_PROCESS"
+printf 'Battery        %s%%\n' "$BATTERY"
+printf 'Status         %s\n' "$STATUS"
+printf '────────────────────────────────────\n'
+printf '\n'
+EOF
+
+chmod 755 /data/adb/bin/qfetch
+export PATH="/data/adb/bin:$PATH" 
+
+Then run command qfetch and it should run
